@@ -1,0 +1,34 @@
+import sympy
+
+def generate_keys(bit_length=1024):
+    # 1. Pilih dua bilangan prima besar p dan q
+    
+    p = sympy.randprime(2**(bit_length//2 - 1), 2**(bit_length//2))
+    
+    q = sympy.randprime(2**(bit_length//2 - 1), 2**(bit_length//2))
+
+    # 2. Hitung n = p * q
+    n = p * q
+
+    # 3. Hitung φ(n) = (p-1)(q-1)
+    
+    phi_n = (p - 1) * (q - 1)
+
+    # 4. Pilih e sehingga gcd(e, φ(n)) = 1
+    
+    e = 65537  # biasanya 65537 digunakan karena ini adalah bilangan prima yang cukup besar
+
+    # 5. Hitung d sehingga ed ≡ 1 (mod φ(n))
+    d = sympy.mod_inverse(e, phi_n)
+
+    # Return public and private keys
+    return ((n, e), (n, d))
+
+def main():
+    public_key, private_key = generate_keys()
+
+    print("Public Key (n, e):", public_key)
+    print("Private Key (n, d):", private_key)
+
+if __name__ == "__main__":
+    main()
